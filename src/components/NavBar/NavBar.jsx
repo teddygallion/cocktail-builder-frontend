@@ -40,6 +40,11 @@ const NavBar = () => {
                                 Sign Up
                             </Link>
                         </li>
+                        <li>
+                            <Link to="/cocktails">
+                                Cocktails
+                            </Link>
+                        </li>
                     </>
                 )}
             </ul>
