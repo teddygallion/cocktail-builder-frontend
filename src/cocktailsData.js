@@ -1,4 +1,4 @@
-export default const cocktailsData = [
+const cocktailsData = [
   {
     "name": "Old Cuban",
     "instructions": "Shake a handful of mint, 2oz white rum, 1oz of sugar syrup, 1oz lime juice and 2 dashes angostura bitters with ice. Double strain into a glass and top with 2oz of prosecco.",
@@ -113,3 +113,5 @@ export default const cocktailsData = [
     }
   }
 ]
+
+export default cocktailsData;
