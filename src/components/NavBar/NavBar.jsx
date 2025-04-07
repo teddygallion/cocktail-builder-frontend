@@ -22,6 +22,11 @@ const NavBar = () => {
                         <li>
                             <Link onClick={handleSignOut} to="/">Sign Out</Link>
                         </li>
+                        <li>
+                            <Link to="/cocktails">
+                                Cocktails
+                            </Link>
+                        </li>
                     </>
                 ) : (
                     <>
@@ -38,11 +43,6 @@ const NavBar = () => {
                         <li>
                             <Link to="/sign-up">
                                 Sign Up
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/cocktails">
-                                Cocktails
                             </Link>
                         </li>
                     </>
