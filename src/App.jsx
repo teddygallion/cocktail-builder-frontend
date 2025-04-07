@@ -7,7 +7,7 @@ import Landing from './components/Landing/Landing';
 import Dashboard from './components/Dashboard/Dashboard';
 import { UserContext } from './contexts/UserContext';
 import CocktailList from './components/CocktailList/CocktailList';
-
+import CocktailsData from "./cocktailsData.js"
 function App() {
   const { user } = useContext(UserContext);
   return (
