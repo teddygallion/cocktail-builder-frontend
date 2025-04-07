@@ -33,6 +33,13 @@ function App() {
           path="/sign-in"
           element={<SignInForm />}
         />
+
+        <Route
+          path="/cocktails"
+          element={<CocktailList />}
+        />
+
+
       </Routes>
     </>
   );
