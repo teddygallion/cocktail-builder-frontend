@@ -9,6 +9,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import { UserContext } from './contexts/UserContext';
 import CocktailList from './components/CocktailList/CocktailList';
 import CocktailsData from "./cocktailsData.js"
+import CocktailForm from "./components/CocktailForm/CocktailForm";
 
 
 import * as cocktailService from './services/cocktailService';
@@ -38,7 +39,10 @@ function App() {
           path="/cocktails"
           element={<CocktailList />}
         />
-
+        <Route
+          path="/add"
+          element={<CocktailForm/>}
+        />
 
       </Routes>
     </>

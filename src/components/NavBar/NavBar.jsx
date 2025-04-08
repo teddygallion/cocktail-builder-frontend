@@ -38,6 +38,11 @@ const NavBar = () => {
                                 Cocktails
                             </Link>
                         </li>
+                        <li>
+                            <Link to="/add">
+                                AddCockTail
+                            </Link>
+                        </li>
                     </>
                 ) : (
                     <>
