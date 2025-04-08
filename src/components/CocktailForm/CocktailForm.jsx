@@ -23,6 +23,10 @@ export default function CocktailForm() {
     const filtered = ingredients.filter((_, i) => i !== index);
     setIngredients(filtered);
   };
+ const joinIngredients = (index) => {
+  const ingredient = ingredients[index];
+  console.log(`${ingredient.name} : ${ingredient.amount} ${ingredient.unit}`);
+};
 
   return (
     <form>
@@ -75,14 +79,16 @@ export default function CocktailForm() {
                 </option>
               ))}
             </select>
+             <button type ="button" onClick={() => joinIngredients(index)}> press ME! </button>
             <button type="button" onClick={() => removeIngredient(index)}>
               Remove
             </button>
           </div>
         ))}
-        <button type="button" onClick={addIngredient}>
+        <button type="button">
           Add Ingredient
         </button>
+        <button type="submit">Submit</button>
       </div>
     </form>
   );
