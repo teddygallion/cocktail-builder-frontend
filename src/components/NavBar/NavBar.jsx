@@ -1,6 +1,8 @@
 import { useContext } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext';
+import Logo from '../../assets/images/cocktail-logo.svg';
+import styles from './NavBar.module.css';
 
 const NavBar = () => {
     const { user, setUser } = useContext(UserContext);
@@ -11,7 +13,16 @@ const NavBar = () => {
     };
 
     return (
-        <nav>
+        <nav className={styles.container}>
+            <Link to="/">
+                <img
+                src={Logo}
+                alt="Cocktail Builder Logo"
+                className={styles.logo}
+                />
+            </Link>
+
+
             <ul>
                 {user ? (
                     <>

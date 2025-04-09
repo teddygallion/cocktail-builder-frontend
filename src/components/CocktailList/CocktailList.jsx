@@ -1,7 +1,48 @@
-const CocktailList = (props) => {
-    return <main>Cocktail List</main>;
-  };
-  
-  export default CocktailList;
-  
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { getRandom } from "../../services/cocktailService";
+import styles from "./CocktailList.module.css";
 
+const CocktailList = () => {
+  const [cocktails, setCocktails] = useState([]);
+
+  useEffect(() => {
+    const fetchCocktails = async () => {
+      const promises = Array.from({ length: 6 }, () => getRandom());
+      const results = await Promise.all(promises);
+
+      const validResults = results.filter(Boolean);
+      setCocktails(validResults);
+    };
+
+    fetchCocktails();
+  }, []);
+
+  if (cocktails.length === 0) return <p>Loading...</p>;
+
+  return (
+    <main className={styles.container}>
+      {cocktails.map((cocktail, index) => (
+        <Link key={index} to={`/cocktails/${cocktail.name}`}>
+          <article key={index}>
+            <div className={styles.imageWrapper}>
+              <img
+                src={cocktail.image}
+                alt={cocktail.name}
+                style={{ width: "200px", borderRadius: "12px" }}
+              />
+            </div>
+            <div className={styles.contentWrapper}>
+              <header>
+                <h2>{cocktail.name}</h2>
+              </header>
+              <p>{cocktail.instructions?.slice(0, 100)}...</p>
+            </div>
+          </article>
+        </Link>
+      ))}
+    </main>
+  );
+};
+
+export default CocktailList;
