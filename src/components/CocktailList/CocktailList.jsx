@@ -21,26 +21,30 @@ const CocktailList = () => {
   if (cocktails.length === 0) return <p>Loading...</p>;
 
   return (
-    <main className={styles.container}>
-      {cocktails.map((cocktail, index) => (
-        <Link key={index} to={`/cocktails/${cocktail.name}`}>
-          <article key={index}>
-            <div className={styles.imageWrapper}>
-              <img
-                src={cocktail.image}
-                alt={cocktail.name}
-                style={{ width: "200px", borderRadius: "12px" }}
-              />
-            </div>
-            <div className={styles.contentWrapper}>
-              <header>
-                <h2>{cocktail.name}</h2>
-              </header>
-              <p>{cocktail.instructions?.slice(0, 100)}...</p>
-            </div>
-          </article>
-        </Link>
-      ))}
+    <main className={styles.pageWrapper}>
+      <h1>You May Like These Cocktails</h1>
+
+      <div className={styles.container}>
+        {cocktails.map((cocktail, index) => (
+          <Link key={index} to={`/cocktails/${cocktail.name}`}>
+            <article key={index}>
+              <div className={styles.imageWrapper}>
+                <img
+                  src={cocktail.image}
+                  alt={cocktail.name}
+                  className={styles.cocktailImage}
+                />
+              </div>
+              <div className={styles.contentWrapper}>
+                <header>
+                  <h2>{cocktail.name}</h2>
+                </header>
+                <p>{cocktail.instructions?.slice(0, 100)}...</p>
+              </div>
+            </article>
+          </Link>
+        ))}
+      </div>
     </main>
   );
 };
