@@ -8,42 +8,31 @@ import Landing from './components/Landing/Landing';
 import Dashboard from './components/Dashboard/Dashboard';
 import { UserContext } from './contexts/UserContext';
 import CocktailList from './components/CocktailList/CocktailList';
-import CocktailsData from "./cocktailsData.js"
-import CocktailForm from "./components/CocktailForm/CocktailForm";
-
-
+import CocktailDetails from './components/CocktailDetails/CocktailDetails.jsx';
+import CocktailForm from './components/CocktailForm/CocktailForm';
+import CocktailsData from "./cocktailsData.js";
 import * as cocktailService from './services/cocktailService';
-
-
 
 function App() {
   const { user } = useContext(UserContext);
+
   return (
     <>
       <NavBar />
       <Routes>
-        <Route
-          path='/'
-          element={user ? <Dashboard /> : <Landing />} 
-        />
-        <Route
-          path="/sign-up"
-          element={<SignUpForm />}
-        />
-        <Route
-          path="/sign-in"
-          element={<SignInForm />}
-        />
-
-        <Route
-          path="/cocktails"
-          element={<CocktailList />}
-        />
-        <Route
-          path="/add"
-          element={<CocktailForm/>}
-        />
-
+        <Route path='/' element={user ? <Dashboard /> : <Landing />} />
+        {user ? (
+          <>
+            <Route path='/cocktails' element={<CocktailList />} />
+            <Route path='/cocktails/:cocktailId' element={<CocktailDetails />} />
+            <Route path='/add' element={<CocktailForm />} />
+          </>
+        ) : (
+          <>
+            <Route path='/sign-up' element={<SignUpForm />} />
+            <Route path='/sign-in' element={<SignInForm />} />
+          </>
+        )}
       </Routes>
     </>
   );
