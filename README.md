@@ -4,7 +4,7 @@
 
 Welcome to Cocktail Builder, a full-stack MERN application for creating and discovering custom cocktail recipes. Users can sign up, log in, and build their own drink creations—or explore a list of random cocktails for inspiration!
 
-Our team wanted to build a creative, personalized app that lets users explore and document cocktail recipes. We collaborated on both the frontend and backend.
+Our team of three wanted to build a creative, personalized app that lets users explore and document cocktail recipes. We collaborated on both the frontend and backend.
 
 ## 📸 Screenshot
 ![Cocktail Builder Screenshot](./src/assets/images/cocktail-builder-cover.png)
