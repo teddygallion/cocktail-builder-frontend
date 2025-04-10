@@ -27,7 +27,6 @@ Add Drink form with:
 - Custom ingredients
 - Unit and glassware dropdowns
 - Directions field
-- Protected routes for authenticated users
 
 
 ## 🎨 Planning Materials
@@ -39,7 +38,7 @@ Frontend:
 - React
 - React Router DOM
 - Context API
-- CSS 
+- CSS Flexbox and Grid
 
 Backend: 
 [View Backend Repo Here:](https://github.com/suleecao/cocktail-builder-backend)
@@ -54,8 +53,8 @@ Backend:
 - Protected routes for authorized users
 
 ## 📝 Sources & Credits
-- The Fonts are from Google Fonts
-- Photos and Icons are from Canva [Canva](www.canva.com)
+- The fonts are from Google Fonts
+- Photos and icons are from [Canva](https://www.canva.com)
 
 ## 🔮 Future Improvements
 🔹 Allow users to upload cocktail images
