@@ -50,7 +50,9 @@ function App() {
           <Route path='/cocktails' element={<CocktailList cocktails={cocktails}/>} />
           <Route path='/cocktails/new' element={<CocktailForm handleAddCocktail={handleAddCocktail} />} />
           <Route path='/cocktails/:cocktailId' element={<CocktailDetails handleDeleteCocktail={handleDeleteCocktail} />} />
-            <Route path='/add' element={<CocktailForm />} />
+          <Route path='/add' element={<CocktailForm />} />
+          <Route path='/random' element={<CocktailList />} />
+          <Route path='/favorites' element={<CocktailFavorites favorites={getFavorites}/>} />
           </>
           ) : (
          <>

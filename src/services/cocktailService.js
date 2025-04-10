@@ -14,10 +14,45 @@ const index = async () => {
 
   const getRandom = async () => {
     try {
-      const res = await fetch(`${BASE_URL}/api/random`);
+      const res = await fetch(`${BASE_URL}/random`);
       return res.json();
     } catch (error) {
       console.error("Error fetching random cocktail:", error);
+    }
+  };
+
+  const getFavorites = async () => {
+    try {
+      const res = await fetch(`${BASE_URL}/user/:userId/favorites`);
+      return res.json();
+    } catch (error) {
+      console.error("Error fetching favorite cocktail:", error);
+    }
+  };
+
+  const addToFavorites = async (cocktailId) => {
+    try {
+      const res = await fetch(`${BASE_URL}/users/${req.user._id}/favorites`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`, 
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          cocktailId, 
+        }),
+      });
+  
+      if (!res.ok) {
+        throw new Error("Failed to add to favorites");
+      }
+  
+      const data = await res.json();
+      console.log("Added to favorites:", data);
+      return data;
+  
+    } catch (error) {
+      console.error("Error adding to favorites:", error);
     }
   };
   
@@ -110,6 +145,7 @@ const index = async () => {
     index, show, create,
     searchByName, getRandom, 
     createReview, deleteCocktail,
-    updateCocktail
+    updateCocktail, getFavorites, 
+    addToFavorites
   };
   

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getRandom } from "../../services/cocktailService";
+import { addToFavorites, getRandom } from "../../services/cocktailService";
 import styles from "./CocktailList.module.css";
 
 const CocktailList = () => {
@@ -13,7 +13,7 @@ const CocktailList = () => {
       const results = await Promise.all(promises);
 
       const validResults = results.filter(Boolean);
-      setCocktails(validResults);
+      setCocktails(validResults[0]);
     };
 
     fetchCocktails();
@@ -24,6 +24,7 @@ const CocktailList = () => {
       if (prevFavorites.includes(cocktailName)) {
         return prevFavorites.filter((name) => name !== cocktailName);
       } else {
+        addToFavorites(userId, cocktail._id)
         return [...prevFavorites, cocktailName];
       }
     });
@@ -39,23 +40,23 @@ const CocktailList = () => {
       <div className={styles.container}>
         {cocktails.map((cocktail, index) => (
             <article key={index}>
-          <Link to={`/cocktails/${cocktail.name}`}>
+          <Link to={`/cocktails/${cocktail.drinkName}`}>
           <div className={styles.imageWrapper}>
                 <img
                   src={cocktail.image}
-                  alt={cocktail.name}
+                  alt={cocktail.drinkName}
                   className={styles.cocktailImage}
                 />
               </div>
               <div className={styles.contentWrapper}>
                 <header>
-                  <h2>{cocktail.name}</h2>
+                  <h2>{cocktail.drinkName}</h2>
                 </header>
                 <p>{cocktail.instructions?.slice(0, 100)}...</p>
               </div>
             </Link>
-           <button onClick={() => toggleFavorite(cocktail.name)}>
-         {favorites.includes(cocktail.name) ? 'Remove from Favorites' : 'Add to Favorites'}
+           <button onClick={() => toggleFavorite(cocktail.drinkName)}>
+         {favorites.includes(cocktail.drinkName) ? 'Remove from Favorites' : 'Add to Favorites'}
        </button>
        </article>
       ))}
