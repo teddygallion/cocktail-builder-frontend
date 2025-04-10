@@ -28,14 +28,19 @@ const NavBar = () => {
                     <>
                         <li>Welcome, {user.username}</li>
                         <li>
-                            <Link to="/">Dashboard</Link>
+                            <Link to='/'>Dashboard</Link>
                         </li>
                         <li>
-                            <Link onClick={handleSignOut} to="/">Sign Out</Link>
+                            <Link onClick={handleSignOut} to='/'>Sign Out</Link>
                         </li>
                         <li>
-                            <Link to="/cocktails">
-                                Cocktails
+                            <Link to='/cocktails'>
+                                Popular Drinks
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to='/cocktails/new'>
+                                Add New Drink
                             </Link>
                         </li>
                     </>
