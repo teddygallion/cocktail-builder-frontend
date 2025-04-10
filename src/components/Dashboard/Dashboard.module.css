@@ -18,6 +18,14 @@
 
 }
 
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 21px;
+}
+
+
 .imageWrapper {
   flex-shrink: 0;
 }
@@ -108,4 +116,10 @@
 .dashboardButtonSecondary:hover {
   background-color: var(--dark-green);
   color: white;
+}
+
+@media only screen and (max-width: 900px) {
+  .cardGrid {
+    grid-template-columns: 1fr;
+  }
 }
