@@ -13,7 +13,7 @@ const CocktailDetails = (props) => {
 
     handleAddReview = async (reviewFormData) => {
         const newReview = await cocktailService.createReview(cocktailId, reviewFormData);
-        setCocktial({ ...cocktial, reviews: [...cocktail.reviews, newReview] });
+        setCocktail({ ...cocktail, reviews: [...cocktail.reviews, newReview] });
     };
 
     useEffect(() => {
