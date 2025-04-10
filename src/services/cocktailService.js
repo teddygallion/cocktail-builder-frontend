@@ -14,7 +14,7 @@ const index = async () => {
 
   const getRandom = async () => {
     try {
-      const res = await fetch(`${BASE_URL}/random`);
+      const res = await fetch(`${BASE_URL}/api/random`);
       return res.json();
     } catch (error) {
       console.error("Error fetching random cocktail:", error);
