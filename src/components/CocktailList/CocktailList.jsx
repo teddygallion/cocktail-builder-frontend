@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { getRandom } from "../../services/cocktailService";
 import styles from "./CocktailList.module.css";
 
+
+
 const CocktailList = () => {
   const [cocktails, setCocktails] = useState([]);
 
@@ -23,6 +25,7 @@ const CocktailList = () => {
   return (
     <main className={styles.pageWrapper}>
       <h1>You May Like These Cocktails</h1>
+      <p>Refresh the page to see more cocktails</p>
 
       <div className={styles.container}>
         {cocktails.map((cocktail, index) => (
