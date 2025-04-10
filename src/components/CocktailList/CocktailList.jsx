@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { UserContext } from '../../contexts/UserContext';
 import { Link } from "react-router-dom";
-import { addToFavorites, getRandom } from "../../services/cocktailService";
+import { getRandom } from "../../services/cocktailService";
+import { addToFavorites } from "../../services/userService";
 import styles from "./CocktailList.module.css";
 
 const CocktailList = () => {
   const [cocktails, setCocktails] = useState([]);
   const [favorites, setFavorites] = useState([]);
+
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     const fetchCocktails = async () => {
@@ -19,13 +23,15 @@ const CocktailList = () => {
     fetchCocktails();
   }, []);
 
-  const toggleFavorite = (cocktailName) => {
+  const toggleFavorite = (cocktail) => {
+    
+    console.log(cocktail);
     setFavorites((prevFavorites) => {
-      if (prevFavorites.includes(cocktailName)) {
-        return prevFavorites.filter((name) => name !== cocktailName);
+      if (prevFavorites.includes(cocktail.drinkName)) {
+        return prevFavorites.filter((name) => name !== cocktail.drinkName);
       } else {
-        addToFavorites(userId, cocktail._id)
-        return [...prevFavorites, cocktailName];
+        addToFavorites(user._id, cocktail._id)
+        return [...prevFavorites, cocktail.drinkName];
       }
     });
   };
@@ -55,8 +61,8 @@ const CocktailList = () => {
                 <p>{cocktail.instructions?.slice(0, 100)}...</p>
               </div>
             </Link>
-           <button onClick={() => toggleFavorite(cocktail.drinkName)}>
-         {favorites.includes(cocktail.drinkName) ? 'Remove from Favorites' : 'Add to Favorites'}
+           <button onClick={() => toggleFavorite(cocktail)}>
+         {favorites.includes(cocktail) ? 'Remove from Favorites' : 'Add to Favorites'}
        </button>
        </article>
       ))}

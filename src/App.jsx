@@ -10,14 +10,14 @@ import Dashboard from './components/Dashboard/Dashboard';
 import CocktailList from './components/CocktailList/CocktailList';
 import CocktailDetails from './components/CocktailDetails/CocktailDetails.jsx';
 import CocktailForm from './components/CocktailForm/CocktailForm';
-import CocktailsData from "./cocktailsData.js";
+import CocktailFavorites from './components/CocktailFavorites/CocktailFavorites.jsx';
 import * as cocktailService from './services/cocktailService';
-
-
+import * as userService from './services/userService';
 
 function App() {
   const { user } = useContext(UserContext);
   const [cocktails, setCocktails] = useState([]);
+  const [favorites, setFavorites] = useState([]);
   const navigate = useNavigate();
 
   const handleAddCocktail = async (cocktailFormData) => {
@@ -30,13 +30,24 @@ function App() {
     setCocktails(cocktails.filter((cocktail) => cocktail._id !== deletedCocktail._id));
     navigate('/cocktails/favorites');
   };
+  
+  const handleGetFavorites = async () => {
+    const userFavorites = userService.getFavorites(user._id);
+    setFavorites(userFavorites);
+    console.log(favorites, userFavorites);
+    // navigate('/favorites');
+    
+  };
 
   useEffect(() => {
     const fetchAllCocktails = async () => {
       const cocktailsData = await cocktailService.index();
       setCocktails(cocktailsData);
     }
-  if(user) fetchAllCocktails()
+  if(user) {
+      fetchAllCocktails()
+      handleGetFavorites();
+    }
   }, [user]);
 
   return (
@@ -52,7 +63,7 @@ function App() {
           <Route path='/cocktails/:cocktailId' element={<CocktailDetails handleDeleteCocktail={handleDeleteCocktail} />} />
           <Route path='/add' element={<CocktailForm />} />
           <Route path='/random' element={<CocktailList />} />
-          <Route path='/favorites' element={<CocktailFavorites favorites={getFavorites}/>} />
+          <Route path='/favorites' element={<CocktailFavorites favorites={ favorites }/>} />
           </>
           ) : (
          <>

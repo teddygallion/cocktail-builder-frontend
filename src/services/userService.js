@@ -20,7 +20,43 @@ const index = async () => {
   }
 };
 
+ const getFavorites = async (userId) => {
+    try {
+      const res = await fetch(`${BASE_URL}/${userId}/favorites`);
+      return res.json();
+    } catch (error) {
+      console.error("Error fetching favorite cocktail:", error);
+    }
+  };
+
+  const addToFavorites = async (userId, cocktailId) => {
+    try {
+      const res = await fetch(`${BASE_URL}/${userId}/favorites`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem('token')}`, 
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          cocktailId, 
+        }),
+      });
+  
+      if (!res.ok) {
+        throw new Error("Failed to add to favorites");
+      }
+  
+      const data = await res.json();
+      console.log("Added to favorites:", data);
+      return data;
+  
+    } catch (error) {
+      console.error("Error adding to favorites:", error);
+    }
+  };
+
 
 export {
-  index,
+  index, getFavorites, 
+  addToFavorites
 };

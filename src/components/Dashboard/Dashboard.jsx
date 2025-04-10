@@ -42,7 +42,7 @@ const Dashboard = () => {
           <Link to="/cocktails" className={styles.dashboardButton}>
             Random
           </Link>
-          <Link to="/favorites" className={styles.dashboardButton}>//////////////
+          <Link to="/favorites" className={styles.dashboardButton}>
             Favorites
           </Link>
           <button className={styles.dashboardButtonSecondary}>Popular</button>
