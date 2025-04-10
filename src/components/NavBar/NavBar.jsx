@@ -27,7 +27,10 @@ const NavBar = () => {
                 {user ? (
                     <>
                         <li>
-                            <Link to="/">Dashboard</Link>
+                            <Link to='/'>Dashboard</Link>
+                        </li>
+                        <li>
+                            <Link onClick={handleSignOut} to='/'>Sign Out</Link>
                         </li>
                         <li>
                             <Link to="/add">

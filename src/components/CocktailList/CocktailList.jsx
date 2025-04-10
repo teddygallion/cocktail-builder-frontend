@@ -7,6 +7,7 @@ import styles from "./CocktailList.module.css";
 
 const CocktailList = () => {
   const [cocktails, setCocktails] = useState([]);
+  const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
     const fetchCocktails = async () => {
@@ -20,6 +21,17 @@ const CocktailList = () => {
     fetchCocktails();
   }, []);
 
+  const toggleFavorite = (cocktailName) => {
+    setFavorites((prevFavorites) => {
+      if (prevFavorites.includes(cocktailName)) {
+        return prevFavorites.filter((name) => name !== cocktailName);
+      } else {
+        return [...prevFavorites, cocktailName];
+      }
+    });
+  };
+
+
   if (cocktails.length === 0) return <p>Loading...</p>;
 
   return (
@@ -29,9 +41,9 @@ const CocktailList = () => {
 
       <div className={styles.container}>
         {cocktails.map((cocktail, index) => (
-          <Link key={index} to={`/cocktails/${cocktail.name}`}>
             <article key={index}>
-              <div className={styles.imageWrapper}>
+          <Link to={`/cocktails/${cocktail.name}`}>
+          <div className={styles.imageWrapper}>
                 <img
                   src={cocktail.image}
                   alt={cocktail.name}
@@ -44,9 +56,12 @@ const CocktailList = () => {
                 </header>
                 <p>{cocktail.instructions?.slice(0, 100)}...</p>
               </div>
-            </article>
-          </Link>
-        ))}
+            </Link>
+           <button onClick={() => toggleFavorite(cocktail.name)}>
+         {favorites.includes(cocktail.name) ? 'Remove from Favorites' : 'Add to Favorites'}
+       </button>
+       </article>
+      ))}
       </div>
     </main>
   );
