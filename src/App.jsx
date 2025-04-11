@@ -25,6 +25,12 @@ function App() {
     setCocktails([newCocktail, ...cocktails]);
     navigate ('/cocktails/favorites');
   };
+   const handleUpdateCocktail = async (cocktailId, cocktailFormData) => {
+    console.log('cocktailId', cocktailId, 'cocktailFormData', cocktailFormData);
+    const updatedCocktail = await cocktailService.update(cocktailId, cocktailFormData); 
+    setCocktails(cocktails.map((cocktail) => (cocktail._id === cocktailId ? updatedCocktail : cocktail)));  
+    navigate('/cocktails/:cocktailId');
+  };
   const handleDeleteCocktail = async (cocktailId) => {
     const deletedCocktail = await cocktailService.deleteCocktail(cocktailId);
     setCocktails(cocktails.filter((cocktail) => cocktail._id !== deletedCocktail._id));
@@ -67,6 +73,7 @@ function App() {
           <Route path='/add' element={<CocktailForm />} />
           <Route path='/random' element={<CocktailList />} />
           <Route path='/favorites' element={<CocktailFavorites favorites={ favorites }/>} />
+          <Route path='/cocktails/:cocktailId/edit' element={<CocktailForm handleUpdateCocktail={handleUpdateCocktail} />} />
           </>
           ) : (
          <>

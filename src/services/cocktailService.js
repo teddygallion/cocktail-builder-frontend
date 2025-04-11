@@ -44,37 +44,39 @@ const index = async () => {
     }
   };
 
-  const create = async (cocktailFormData) => {
-    try {
-      const res = await fetch(BASE_URL, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(cocktailFormData),
-      });
-      return res.json();
-    } catch (error) {
-      console.log(error);
+const create = async (cocktailFormData) => {
+  try {
+    const token = localStorage.getItem('token');
+    
+        if (!token) {
+      throw new Error('No token found, please log in again.');
     }
-  };
 
-  const createReview = async (cocktailId, reviewFormData) => {
-    try {
-      const res = await fetch(`${BASE_URL}/${cocktailId}/reviews`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(reviewFormData),
-      });
-      return res.json();
-    } catch (error) {
-      console.log(error);
+    const res = await fetch(BASE_URL, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(cocktailFormData),
+    });
+
+        if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(`Error: ${errorData.message || 'Unknown error'}`);
     }
-  };
+
+        const data = await res.json();
+
+        if (!data.cocktail) {
+      throw new Error('No cocktail returned in the response');
+    }
+
+    return data.cocktail; 
+  } catch (error) {
+    console.error('Error creating cocktail:', error);
+        return { error: error.message };    }
+};
   
   const deleteCocktail = async (cocktailId) => {
     try {
@@ -109,8 +111,7 @@ const index = async () => {
   export { 
     index, show, create,
     searchByName, getRandom, 
-    createReview, deleteCocktail,
-    updateCocktail
+    deleteCocktail, updateCocktail
   };
   
   

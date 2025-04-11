@@ -1,25 +1,28 @@
 const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/reviews`
-const getAuthHeaders = () => {
-  const token = localStorage.getItem('token');
-  return {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${token}`,
-  };
-};
 
 const createReview = async ({ cocktail, comment, rating }) => {
   try {
+    const token = localStorage.getItem('token'); 
+
     const response = await fetch(BASE_URL, {
       method: 'POST',
-      headers: getAuthHeaders(),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
       body: JSON.stringify({ cocktail, comment, rating }),
     });
 
     const data = await response.json();
-    if (!response.ok) throw new Error(data.message || 'Failed to create review');
+
+    if (!response.ok) {
+      console.error('Server responded with:', data);
+      throw new Error(data.message || 'Failed to create review');
+    }
+
     return data.review;
   } catch (error) {
-    console.error('createReview error:', error);
+    console.error('createReview error:', error.message);
     throw error;
   }
 };
