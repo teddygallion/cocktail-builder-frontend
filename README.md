@@ -1,4 +1,4 @@
-# 🍸 Cocktail Builder 
+# 🍸 Cocktail Builder
 
 ### 🍹 Build and discover drinks you love
 
@@ -10,7 +10,7 @@ Our team of three wanted to build a creative, personalized app that lets users e
 ![Cocktail Builder Screenshot](./src/assets/images/cocktail-builder-cover.png)
 
 ## 🚀 Live Demo
-[📝 Try Cocktail Builder Here](https://placehold.co/)
+[📝 Try Cocktail Builder Here](https://cocktail-buildr.netlify.app/)
 
 
 ## 🧭 Navigation & Features
