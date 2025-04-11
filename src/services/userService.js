@@ -22,7 +22,12 @@ const index = async () => {
 
  const getFavorites = async (userId) => {
     try {
-      const res = await fetch(`${BASE_URL}/${userId}/favorites`);
+      const res = await fetch(`${BASE_URL}/${userId}/favorites`,{
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem('token')}`, 
+          "Content-Type": "application/json",
+        },
+      });
       return res.json();
     } catch (error) {
       console.error("Error fetching favorite cocktail:", error);

@@ -2,10 +2,10 @@ import React from 'react';
 
 const CocktailFavorites = ({ favorites }) => (
     <ul>
-      {favorites.map(fav => (
-        <li key={fav.id}>
+      {favorites.map((fav, index) => (
+        <li key={index}>
           <img src={fav.image} alt={fav.name} width="100" />
-          <p>{fav.name}</p>
+          <p>{fav.drinkName}</p>
         </li>
       ))}
     </ul>

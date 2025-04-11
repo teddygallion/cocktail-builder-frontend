@@ -31,8 +31,8 @@ const CocktailDetails = (props) => {
         <main>
             <section>
                 <header>
-                    <h1>{cocktail.name}</h1>
-                    <img src={cocktail.image} alt={cocktail.name} />
+                    <h1>{cocktail.drinkName}</h1>
+                    <img src={cocktail.image} alt={cocktail.drinkName} />
                     <p>{cocktail.instructions}</p>
                     <h2>Ingredients</h2>
                     <ul>
