@@ -28,7 +28,7 @@ function App() {
 
   const handleUpdateCocktail = async (cocktailId, cocktailFormData) => {
     console.log('cocktailId', cocktailId, 'cocktailFormData', cocktailFormData);
-    const updatedCocktail = await cocktailService.update(cocktailId, cocktailFormData); 
+    const updatedCocktail = await cocktailService.updateCocktail(cocktailId, cocktailFormData); 
     setCocktails(cocktails.map((cocktail) => (cocktail._id === cocktailId ? updatedCocktail : cocktail)));  
     navigate('/cocktails/:cocktailId');
   };
