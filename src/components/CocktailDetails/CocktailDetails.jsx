@@ -15,12 +15,12 @@ const CocktailDetails = (props) => {
     const handleAddReview = async (reviewFormData) => {
         if (!cocktailId) {
             console.error("cocktailId is missing");
-            return; // Prevent making the request if cocktailId is not available
+            return;
         }
 
         if (!user) {
             console.error("User is not logged in");
-            return; // Prevent adding review if the user is not logged in
+            return; 
         }
         console.log('Submitting review:', {
               cocktail: cocktailId,
@@ -33,7 +33,7 @@ const CocktailDetails = (props) => {
                 cocktail: cocktailId,
                 comment: reviewFormData.comment,
                 rating: reviewFormData.rating,
-                author: user._id // Add the logged-in user's ID as the author
+                author: user._id
             });
 
             setCocktail(prev => ({

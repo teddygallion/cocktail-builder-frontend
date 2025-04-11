@@ -60,8 +60,35 @@ const index = async () => {
     }
   };
 
+const getUserCocktails = async (userId) => {
+  try {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      throw new Error('No token found, please log in again.');
+    }
+
+    const res = await fetch(`${BASE_URL}/${userId}/cocktails`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(`Error: ${errorData.message || 'Unknown error'}`);
+    }
+
+    const data = await res.json();
+    return data; 
+  } catch (error) {
+    console.error('Error fetching user cocktails:', error);
+    return { error: error.message };
+  }
+};
 
 export {
   index, getFavorites, 
-  addToFavorites
+  addToFavorites, getUserCocktails
 };

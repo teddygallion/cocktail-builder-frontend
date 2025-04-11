@@ -1,4 +1,5 @@
 import { useEffect, useContext, useState } from "react";
+import UserCocktails from '../UserCocktails/UserCocktails';
 import { UserContext } from "../../contexts/UserContext";
 import { index } from "../../services/userService";
 import styles from "./Dashboard.module.css";
@@ -45,34 +46,13 @@ const Dashboard = () => {
           <Link to="/favorites" className={styles.dashboardButton}>
             Favorites
           </Link>
-          <button className={styles.dashboardButtonSecondary}>Popular</button>
         </div>
       </section>
-
-      <section className={styles.recommendations}>
-        <h3>You Might Like</h3>
-        <div className={styles.cardGrid}>
-          {[1, 2, 3, 4].map((_, index) => (
-            <Link key={index} to={`/cocktails/${index}`}>
-              <article>
-              <div className={styles.imageWrapper}>
-                <img
-                  src={`https://placehold.co/200x200?`}
-                  alt="Cocktail"
-                  className={styles.cocktailImage}
-                />
-              </div>
-              <div className={styles.contentWrapper}>
-                <header>
-                  <h2>Cocktail Name</h2>
-                </header>
-                <p>Lime, mint, sugar, gin</p>
-              </div>
-            </article>
-          </Link>
-          ))}
-        </div>
+      <section className={styles.userCocktails}>
+        <h3>Your Created Cocktails</h3>
+        <UserCocktails />
       </section>
+    
     </main>
   );
 };
