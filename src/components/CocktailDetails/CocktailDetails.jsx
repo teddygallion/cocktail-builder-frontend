@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
 import * as cocktailService from '../../services/cocktailService';
+import * as reviewService from '../../services/reviewService';
 import ReviewForm from '../ReviewForm/ReviewForm';
 
 const CocktailDetails = (props) => {
@@ -11,11 +12,33 @@ const CocktailDetails = (props) => {
     console.log('cocktail ID', cocktailId);
 
 
-   const handleAddReview = async (reviewFormData) => {
-        const newReview = await cocktailService.createReview(cocktailId, reviewFormData);
-        setCocktail({ ...cocktail, reviews: [...cocktail.reviews, newReview] });
-    };
+    const handleAddReview = async (reviewFormData) => {
+        if (!cocktailId) {
+            console.error("cocktailId is missing");
+            return; // Prevent making the request if cocktailId is not available
+        }
 
+        if (!user) {
+            console.error("User is not logged in");
+            return; // Prevent adding review if the user is not logged in
+        }
+
+        try {
+            const newReview = await reviewService.createReview({
+                cocktail: cocktailId,
+                comment: reviewFormData.comment,
+                rating: reviewFormData.rating,
+                author: user._id // Add the logged-in user's ID as the author
+            });
+
+            setCocktail(prev => ({
+                ...prev,
+                reviews: [...prev.reviews, newReview]
+            }));
+        } catch (error) {
+            console.error("Failed to add review:", error);
+        }
+    };
     useEffect(() => {
         const fetchCocktail = async () => {
             const cocktailData = await cocktailService.show(cocktailId);
@@ -44,7 +67,7 @@ const CocktailDetails = (props) => {
                     </ul>
                     {cocktail.author === user._id && (
                         <>
-                            <Link to={'/cocktails/${cocktailId}/edit'}>Edit</Link>
+                            <Link to={`/cocktails/${cocktailId}/edit`}>Edit</Link>
                             <button onClick={() => props.handleDeleteCocktail(cocktailId)}>
                                 Delete drink</button>
                         </>
@@ -55,22 +78,22 @@ const CocktailDetails = (props) => {
             <section>
                 <h2>Reviews</h2>
                 <ReviewForm handleAddReview={handleAddReview} />
-                {!cocktail.reviews.length && <p>no reviews yet!</p>}
-                {cocktail.reviews.map((review) => (
-                    <div key={review.id}>
-                        <p>{review.text}</p>
-                        <p>{review.rating}</p>
-                        <p>{review.author}</p>
-                        <p>`${cocktail.author.username} posted on
-                            ${new Date(cocktail.createdAt).toLocaleDateString()}`</p>
-                        {review.author._id === user._id && (
-                            <>
-                                <button onClick={() => props.handleDeleteReview(reviewId)}>
-                                    Delete
-                                </button>
-                            </>
-                        )}
-                    </div>
+              {cocktail.reviews.map((review) => (
+                  <div key={review._id}>
+                    <p>{review.comment}</p>
+                    <p>{review.rating} stars</p>
+                    <p>{review.author?.username}</p>
+                    <p>
+                      {`${review.author?.username} posted on ${new Date(review.createdAt).toLocaleDateString()}`}
+                    </p>
+                    {review.author?._id === user._id && (
+                      <>
+                        <button onClick={() => props.handleDeleteReview(review._id)}>
+                          Delete
+                        </button>
+                      </>
+                    )}
+                  </div>
                 ))}
             </section>
         </main>

@@ -1,16 +1,17 @@
 import { useState } from 'react';
 
-const ReviewForm = (props) => {
-  const [commentData, setCommentData] = useState({ text: '' });
+const ReviewForm = ({ handleAddReview }) => {
+  const [commentData, setCommentData] = useState({ comment: '', rating: '5' });
 
   const handleChange = (evt) => {
-    setCommentData({ ...commentData, [evt.target.name]: evt.target.value });
+    const { name, value } = evt.target;
+    setCommentData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    props.handleAddComment(commentData);
-    setCommentData({ text: '' });
+    handleAddReview(commentData);
+    setCommentData({ comment: '', rating: '5' });
   };
 
   return (
@@ -18,10 +19,9 @@ const ReviewForm = (props) => {
       <label htmlFor='text-input'>Your review:</label>
       <textarea
         required
-        type='text'
-        name='text'
+        name='comment'
         id='text-input'
-        value={commentData.text}
+        value={commentData.comment}
         onChange={handleChange}
       />
 
@@ -39,10 +39,9 @@ const ReviewForm = (props) => {
         <option value='5'>5 Stars</option>
      </select>
 
-      <button type='submit'>submit review</button>
+      <button type='submit'>Submit Review</button>
     </form>
   );
 };
 
 export default ReviewForm;
-
