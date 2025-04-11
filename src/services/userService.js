@@ -58,7 +58,29 @@ const index = async () => {
     } catch (error) {
       console.error("Error adding to favorites:", error);
     }
-  };
+};
+const removeFromFavorites = async (userId, cocktailId) => {
+  try {
+    const res = await fetch(`${BASE_URL}/${userId}/favorites`, {
+      method: "DELETE",
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem('token')}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ cocktailId })
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to remove from favorites");
+    }
+
+    const data = await res.json();
+    console.log("Removed from favorites:", data);
+    return data;
+  } catch (error) {
+    console.error("Error removing from favorites:", error);
+  }
+};
 
 const getUserCocktails = async (userId) => {
   try {
@@ -90,5 +112,6 @@ const getUserCocktails = async (userId) => {
 
 export {
   index, getFavorites, 
-  addToFavorites, getUserCocktails
+  addToFavorites, getUserCocktails,
+  removeFromFavorites,
 };

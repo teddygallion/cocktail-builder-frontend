@@ -23,20 +23,22 @@ function App() {
   const handleAddCocktail = async (cocktailFormData) => {
     const newCocktail = await cocktailService.create(cocktailFormData);
     setCocktails([newCocktail, ...cocktails]);
-    navigate ('/cocktails/favorites');
+    navigate('/cocktails/favorites');
   };
-   const handleUpdateCocktail = async (cocktailId, cocktailFormData) => {
+
+  const handleUpdateCocktail = async (cocktailId, cocktailFormData) => {
     console.log('cocktailId', cocktailId, 'cocktailFormData', cocktailFormData);
     const updatedCocktail = await cocktailService.update(cocktailId, cocktailFormData); 
     setCocktails(cocktails.map((cocktail) => (cocktail._id === cocktailId ? updatedCocktail : cocktail)));  
     navigate('/cocktails/:cocktailId');
   };
+
   const handleDeleteCocktail = async (cocktailId) => {
     const deletedCocktail = await cocktailService.deleteCocktail(cocktailId);
     setCocktails(cocktails.filter((cocktail) => cocktail._id !== deletedCocktail._id));
     navigate('/cocktails/favorites');
   };
-  
+
   const handleGetFavorites = async () => {
     try {
       const userFavorites = await userService.getFavorites(user._id);
@@ -48,13 +50,22 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    const fetchAllCocktails = async () => {
-      const cocktailsData = await cocktailService.index();
-      setCocktails(cocktailsData);
+const handleRemoveFavorite = async (cocktailId) => {
+  try {
+    const updatedFavorites = await userService.removeFromFavorites(user._id, cocktailId);
+    if (updatedFavorites) {
+      console.log("Updated favorites:", updatedFavorites.favorites); 
+      setFavorites(updatedFavorites.favorites);
+    } else {
+      console.error("Failed to update favorites");
     }
-  if(user) {
-      fetchAllCocktails()
+  } catch (error) {
+    console.error("Error removing cocktail from favorites", error);
+  }
+};
+
+  useEffect(() => {
+    if (user) {
       handleGetFavorites();
     }
   }, [user]);
@@ -70,9 +81,7 @@ function App() {
           <Route path='/cocktails' element={<CocktailList cocktails={cocktails}/>} />
           <Route path='/cocktails/new' element={<CocktailForm handleAddCocktail={handleAddCocktail} />} />
           <Route path='/cocktails/:cocktailId' element={<CocktailDetails handleDeleteCocktail={handleDeleteCocktail} />} />
-          <Route path='/add' element={<CocktailForm />} />
-          <Route path='/random' element={<CocktailList />} />
-          <Route path='/favorites' element={<CocktailFavorites favorites={ favorites }/>} />
+          <Route path='/favorites' element={<CocktailFavorites favorites={favorites} handleRemoveFavorite={handleRemoveFavorite} />} />
           <Route path='/cocktails/:cocktailId/edit' element={<CocktailForm handleUpdateCocktail={handleUpdateCocktail} />} />
           </>
           ) : (
