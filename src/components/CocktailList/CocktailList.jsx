@@ -5,6 +5,8 @@ import { getRandom } from "../../services/cocktailService";
 import { addToFavorites } from "../../services/userService";
 import styles from "./CocktailList.module.css";
 
+
+
 const CocktailList = () => {
   const [cocktails, setCocktails] = useState([]);
   const [favorites, setFavorites] = useState([]);
@@ -42,6 +44,7 @@ const CocktailList = () => {
   return (
     <main className={styles.pageWrapper}>
       <h1>You May Like These Cocktails</h1>
+      <p>Refresh the page to see more cocktails</p>
 
       <div className={styles.container}>
         {cocktails.map((cocktail, index) => (

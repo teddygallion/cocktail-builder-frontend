@@ -51,14 +51,15 @@ const Dashboard = () => {
 
       <section className={styles.recommendations}>
         <h3>You Might Like</h3>
-        <div className={styles.container}>
+        <div className={styles.cardGrid}>
           {[1, 2, 3, 4].map((_, index) => (
-            <article key={index}>
+            <Link key={index} to={`/cocktails/${index}`}>
+              <article>
               <div className={styles.imageWrapper}>
                 <img
                   src={`https://placehold.co/200x200?`}
                   alt="Cocktail"
-                  style={{ width: "200px", borderRadius: "12px" }}
+                  className={styles.cocktailImage}
                 />
               </div>
               <div className={styles.contentWrapper}>
@@ -68,6 +69,7 @@ const Dashboard = () => {
                 <p>Lime, mint, sugar, gin</p>
               </div>
             </article>
+          </Link>
           ))}
         </div>
       </section>
