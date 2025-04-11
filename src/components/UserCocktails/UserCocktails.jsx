@@ -1,15 +1,14 @@
 import React, { useEffect, useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext'; 
-import { index, deleteCocktail, updateCocktail } from '../../services/cocktailService';
-import {getFavorites, addToFavorites, getUserCocktails } from "../../services/userService"
-import CocktailForm from '../CocktailForm/CocktailForm';
+import { deleteCocktail } from '../../services/cocktailService';
+import { getUserCocktails } from '../../services/userService';
 
 const UserCocktails = () => {
   const { user } = useContext(UserContext); 
   const [cocktails, setCocktails] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [editingCocktail, setEditingCocktail] = useState(null); 
 
   useEffect(() => {
     if (!user?._id) return;
@@ -39,21 +38,6 @@ const UserCocktails = () => {
     }
   };
 
-  const handleEditCocktail = (cocktail) => {
-    setEditingCocktail(cocktail);
-  };
-
-  const handleUpdateCocktail = async (cocktailId, updatedData) => {
-    try {
-      const updatedCocktail = await updateCocktail(user._id, cocktailId, updatedData);
-      setCocktails(cocktails.map(cocktail => (cocktail._id === cocktailId ? updatedCocktail : cocktail)));
-      setEditingCocktail(null); 
-    } catch (err) {
-      setError('Failed to update cocktail');
-      console.error(err);
-    }
-  };
-
   if (loading) return <p>Loading cocktails...</p>;
   if (error) return <p>{error}</p>;
 
@@ -78,7 +62,9 @@ const UserCocktails = () => {
               </ul>
               <p>{cocktail.instructions}</p>
 
-              <button onClick={() => handleEditCocktail(cocktail._id)}>Edit</button>
+              <Link to={`/cocktails/${cocktail._id}/edit`}>
+                <button>Edit</button>
+              </Link>
               <button onClick={() => handleDeleteCocktail(cocktail._id)}>Delete</button>
             </li>
           ))}

@@ -10,6 +10,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import CocktailList from './components/CocktailList/CocktailList';
 import CocktailDetails from './components/CocktailDetails/CocktailDetails.jsx';
 import CocktailForm from './components/CocktailForm/CocktailForm';
+import CocktailEdit from "./components/CocktailEdit/CocktailEdit"
 import CocktailFavorites from './components/CocktailFavorites/CocktailFavorites.jsx';
 import * as cocktailService from './services/cocktailService';
 import * as userService from './services/userService';
@@ -30,7 +31,7 @@ function App() {
     console.log('cocktailId', cocktailId, 'cocktailFormData', cocktailFormData);
     const updatedCocktail = await cocktailService.updateCocktail(cocktailId, cocktailFormData); 
     setCocktails(cocktails.map((cocktail) => (cocktail._id === cocktailId ? updatedCocktail : cocktail)));  
-    navigate('/cocktails/:cocktailId');
+    navigate(`/cocktails/${cocktailId}`);
   };
 
   const handleDeleteCocktail = async (cocktailId) => {
@@ -82,7 +83,7 @@ const handleRemoveFavorite = async (cocktailId) => {
           <Route path='/cocktails/new' element={<CocktailForm handleAddCocktail={handleAddCocktail} />} />
           <Route path='/cocktails/:cocktailId' element={<CocktailDetails handleDeleteCocktail={handleDeleteCocktail} />} />
           <Route path='/favorites' element={<CocktailFavorites favorites={favorites} handleRemoveFavorite={handleRemoveFavorite} />} />
-          <Route path='/cocktails/:cocktailId/edit' element={<CocktailForm handleUpdateCocktail={handleUpdateCocktail} />} />
+          <Route path='/cocktails/:cocktailId/edit' element={<CocktailEdit handleUpdateCocktail={handleUpdateCocktail} />}/>
           </>
           ) : (
          <>

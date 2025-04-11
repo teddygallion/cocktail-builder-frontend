@@ -16,10 +16,20 @@ const CocktailForm = ({ existingCocktail = null, onSubmitComplete }) => {
 
   useEffect(() => {
     if (existingCocktail) {
-      setCocktailName(existingCocktail.name || "");
+      setCocktailName(existingCocktail.drinkName || ""); 
       setDirections(existingCocktail.instructions || "");
       setGlass(existingCocktail.glass || "");
-      setIngredients(existingCocktail.ingredients || [{ name: "", amount: "", unit: "oz" }]);
+
+      setIngredients(
+        existingCocktail.ingredients?.map((ing) => {
+          const [amountVal, unit = "oz"] = ing.amount?.split(" ") || ["", "oz"];
+          return {
+            name: ing.ingredientName || ing.ingredient?.name || "",
+            amount: amountVal,
+            unit,
+          };
+        }) || [{ name: "", amount: "", unit: "oz" }]
+      );
     }
   }, [existingCocktail]);
 
@@ -54,24 +64,23 @@ const CocktailForm = ({ existingCocktail = null, onSubmitComplete }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = {
-    drinkName: cocktailName,
-    instructions: directions,
-    glass,
-    ingredients: ingredients
-      .filter((ing) => ing.name.trim() !== "")
-      .map((ing) => {
-        const matchedIngredient = ingredientOptions.find(
-          (opt) => opt.name.toLowerCase() === ing.name.toLowerCase()
-        );
+      drinkName: cocktailName,
+      instructions: directions,
+      glass,
+      ingredients: ingredients
+        .filter((ing) => ing.name.trim() !== "")
+        .map((ing) => {
+          const matchedIngredient = ingredientOptions.find(
+            (opt) => opt.name.toLowerCase() === ing.name.toLowerCase()
+          );
 
-        return {
-          ingredient: matchedIngredient?._id,
-          ingredientName: ing.name,
-          amount: `${ing.amount} ${ing.unit}`.trim(),
-        };
-      }),
-  };
-
+          return {
+            ingredient: matchedIngredient?._id,
+            ingredientName: ing.name,
+            amount: `${ing.amount} ${ing.unit}`.trim(),
+          };
+        }),
+    };
 
     try {
       const result = existingCocktail && existingCocktail._id
