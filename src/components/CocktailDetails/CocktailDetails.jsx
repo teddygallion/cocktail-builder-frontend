@@ -6,23 +6,24 @@ import ReviewForm from '../ReviewForm/ReviewForm';
 
 const CocktailDetails = (props) => {
     const [cocktail, setCocktail] = useState(null);
-    const { id } = useParams();
+    const { cocktailId } = useParams();
     const { user } = useContext(UserContext);
-    console.log('cocktail ID', id);
+    console.log('cocktail ID', cocktailId);
 
 
-    handleAddReview = async (reviewFormData) => {
+   const handleAddReview = async (reviewFormData) => {
         const newReview = await cocktailService.createReview(cocktailId, reviewFormData);
         setCocktail({ ...cocktail, reviews: [...cocktail.reviews, newReview] });
     };
 
     useEffect(() => {
         const fetchCocktail = async () => {
-            const cocktailData = await cocktailService.show(id);
+            const cocktailData = await cocktailService.show(cocktailId);
             setCocktail(cocktailData);
+            console.log(cocktailData);
         }
         fetchCocktail();
-    }, [id]);
+    }, [cocktailId]);
 
     if (!cocktail) return <main>loading...</main>
 
@@ -35,11 +36,13 @@ const CocktailDetails = (props) => {
                     <p>{cocktail.instructions}</p>
                     <h2>Ingredients</h2>
                     <ul>
-                        {Object.entries(cocktail.ingredients).map(([ingredient, amount]) => (
-                            <li key={ingredient}>{ingredient}: {amount}</li>
+                         {cocktail.ingredients.map((ingredient) => (
+                            <li key={ingredient._id}>
+                                {ingredient.ingredientName}: {ingredient.amount}
+                            </li>
                         ))}
                     </ul>
-                    {cocktail.author._id === user._id && (
+                    {cocktail.author === user._id && (
                         <>
                             <Link to={'/cocktails/${cocktailId}/edit'}>Edit</Link>
                             <button onClick={() => props.handleDeleteCocktail(cocktailId)}>
