@@ -68,11 +68,8 @@ const create = async (cocktailFormData) => {
 
         const data = await res.json();
 
-        if (!data.cocktail) {
-      throw new Error('No cocktail returned in the response');
-    }
 
-    return data.cocktail; 
+    return data; 
   } catch (error) {
     console.error('Error creating cocktail:', error);
         return { error: error.message };    }

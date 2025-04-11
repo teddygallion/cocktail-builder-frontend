@@ -54,16 +54,24 @@ const CocktailForm = ({ existingCocktail = null, onSubmitComplete }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = {
-      name: cocktailName,
-      instructions: directions,
-      glass,
-      ingredients: ingredients
-        .filter((ing) => ing.name.trim() !== "")
-        .map((ing) => ({
+    drinkName: cocktailName,
+    instructions: directions,
+    glass,
+    ingredients: ingredients
+      .filter((ing) => ing.name.trim() !== "")
+      .map((ing) => {
+        const matchedIngredient = ingredientOptions.find(
+          (opt) => opt.name.toLowerCase() === ing.name.toLowerCase()
+        );
+
+        return {
+          ingredient: matchedIngredient?._id,
           ingredientName: ing.name,
           amount: `${ing.amount} ${ing.unit}`.trim(),
-        })),
-    };
+        };
+      }),
+  };
+
 
     try {
       const result = existingCocktail && existingCocktail._id
@@ -73,7 +81,7 @@ const CocktailForm = ({ existingCocktail = null, onSubmitComplete }) => {
       if (onSubmitComplete) {
         onSubmitComplete(result);
       } else {
-        navigate(`/cocktails/${result._id}`);
+        navigate(`/cocktails/${result._id.toString()}`);
       }
     } catch (error) {
       console.error("Error submitting form:", error);
