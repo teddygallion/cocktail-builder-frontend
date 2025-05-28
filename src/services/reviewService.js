@@ -20,12 +20,14 @@ const createReview = async ({ cocktail, comment, rating }) => {
       throw new Error(data.message || 'Failed to create review');
     }
 
+    console.log('Review created:', data);
     return data.review;
   } catch (error) {
     console.error('createReview error:', error.message);
     throw error;
   }
 };
+
 
 const getReview = async (reviewId) => {
   try {

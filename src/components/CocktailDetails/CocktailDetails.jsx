@@ -11,7 +11,7 @@ const CocktailDetails = (props) => {
     const { user } = useContext(UserContext);
     console.log('cocktail ID', cocktailId);
 
-
+    // Handle adding a review
     const handleAddReview = async (reviewFormData) => {
         if (!cocktailId) {
             console.error("cocktailId is missing");
@@ -22,18 +22,18 @@ const CocktailDetails = (props) => {
             console.error("User is not logged in");
             return; 
         }
+        
         console.log('Submitting review:', {
-              cocktail: cocktailId,
-              comment: reviewFormData.comment,
-              rating: reviewFormData.rating,
-              author: user._id
-            });
+            cocktail: cocktailId,
+            comment: reviewFormData.comment,
+            rating: reviewFormData.rating
+        });
+
         try {
             const newReview = await reviewService.createReview({
                 cocktail: cocktailId,
                 comment: reviewFormData.comment,
-                rating: reviewFormData.rating,
-                author: user._id
+                rating: reviewFormData.rating
             });
 
             setCocktail(prev => ({
@@ -44,16 +44,18 @@ const CocktailDetails = (props) => {
             console.error("Failed to add review:", error);
         }
     };
+
+    // Fetch cocktail details and reviews
     useEffect(() => {
         const fetchCocktail = async () => {
             const cocktailData = await cocktailService.show(cocktailId);
             setCocktail(cocktailData);
-            console.log(cocktailData);
+            console.log("Fetched Cocktail:", cocktailData);  // Debugging line
         }
         fetchCocktail();
     }, [cocktailId]);
 
-    if (!cocktail) return <main>loading...</main>
+    if (!cocktail) return <main>Loading...</main>
 
     return (
         <main>
@@ -64,17 +66,19 @@ const CocktailDetails = (props) => {
                     <p>{cocktail.instructions}</p>
                     <h2>Ingredients</h2>
                     <ul>
-                         {cocktail.ingredients.map((ingredient) => (
+                        {cocktail.ingredients.map((ingredient) => (
                             <li key={ingredient._id}>
                                 {ingredient.ingredientName}: {ingredient.amount}
                             </li>
                         ))}
                     </ul>
-                    {cocktail.author === user._id && (
+                    {/* Show edit/delete options only for the creator */}
+                    {cocktail.creator._id === user._id && (
                         <>
                             <Link to={`/cocktails/${cocktailId}/edit`}>Edit</Link>
                             <button onClick={() => props.handleDeleteCocktail(cocktailId)}>
-                                Delete drink</button>
+                                Delete drink
+                            </button>
                         </>
                     )}
                 </header>
@@ -83,27 +87,36 @@ const CocktailDetails = (props) => {
             <section>
                 <h2>Reviews</h2>
                 <ReviewForm handleAddReview={handleAddReview} />
-              {cocktail.reviews.map((review) => (
-                  <div key={review._id}>
-                    <p>{review.comment}</p>
-                    <p>{review.rating} stars</p>
-                    <p>{review.author?.username}</p>
-                    <p>
-                      {`${review.author?.username} posted on ${new Date(review.createdAt).toLocaleDateString()}`}
-                    </p>
-                    {review.author?._id === user._id && (
-                      <>
-                        <button onClick={() => props.handleDeleteReview(review._id)}>
-                          Delete
-                        </button>
-                      </>
-                    )}
-                  </div>
-                ))}
+
+                {/* Render each review */}
+                {cocktail.reviews && cocktail.reviews.length > 0 ? (
+                    cocktail.reviews.map((review) => {
+                        console.log("Review structure:", review);  // Debugging line
+                        return (
+                            <div key={review._id}>
+                                <p>{review.comment}</p>
+                                <p>{review.rating} stars</p>
+                                <p>{review.author?.username}</p>
+                                <p>
+                                    {`${review.author?.username} posted on ${new Date(review.createdAt).toLocaleDateString()}`}
+                                </p>
+                                {/* Only allow deleting if the user is the author of the review */}
+                                {review.author?._id === user._id && (
+                                    <>
+                                        <button onClick={() => props.handleDeleteReview(review._id)}>
+                                            Delete
+                                        </button>
+                                    </>
+                                )}
+                            </div>
+                        );
+                    })
+                ) : (
+                    <p>No reviews yet.</p>
+                )}
             </section>
         </main>
     );
 };
-
 
 export default CocktailDetails;

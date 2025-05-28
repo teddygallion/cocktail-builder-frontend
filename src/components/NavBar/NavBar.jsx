@@ -30,7 +30,7 @@ const NavBar = () => {
                             <Link to='/'>Dashboard</Link>
                         </li>
                         <li>
-                            <Link to="/add">
+                            <Link to="/cocktails/new">
                                 Add CockTail
                             </Link>
                         </li>

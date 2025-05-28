@@ -37,7 +37,7 @@ const Dashboard = () => {
       <section className={styles.categorySection}>
         <h3>Category</h3>
         <div className={styles.buttonGroup}>
-          <Link to="/add" className={styles.dashboardButton}>
+          <Link to="/cocktails/new" className={styles.dashboardButton}>
             Add Drink
           </Link>
           <Link to="/cocktails" className={styles.dashboardButton}>
